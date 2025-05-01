@@ -1,6 +1,6 @@
 import Layout from '@components/common/Layout';
-import Detail from '@pages/Detail';
 import Main from '@pages/Main';
+import MovieDetail from '@pages/MovieDetail';
 import NotFound from '@pages/NotFound';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Main />} />
-            <Route path="/detail/:id" element={<Detail />} />
+            <Route path="/details/:id" element={<MovieDetail />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

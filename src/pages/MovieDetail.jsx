@@ -1,0 +1,168 @@
+import Inner from "@components/common/Inner";
+import Modal from "@components/modal/Modal";
+import data from "@data/movieDetailData.json";
+import { useEffect, useState } from "react";
+import { FaStar } from "react-icons/fa6";
+import { useParams } from "react-router-dom";
+
+const MovieDetail = () => {
+  const { id } = useParams();
+  const [movie, setMovie] = useState([]);
+  const [myComment, setMyComment] = useState(`내가 원하던게 이거잖아`);
+  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+  const [myStar, setMyStar] = useState(7);
+  const [preRate, setPreRate] = useState(0);
+
+  const baseUrl = "https://image.tmdb.org/t/p/w500";
+
+  useEffect(() => {
+    setMovie(data);
+  }, [id]);
+
+  const handleMouseUp = (e) => {
+    // ref element
+    const x = e.clientX;
+    console.log(x);
+    console.log("test");
+  };
+  if (!movie) return null;
+
+  return (
+    <div>
+      {/* 상단 영화 간략정보 */}
+      <div className="relative h-120">
+        <div className="h-full overflow-hidden mb-8 absolute inset-0">
+          <img
+            src={`${baseUrl}${movie.backdrop_path}`}
+            alt={movie.title}
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="w-full h-full bg-linear-to-b from-gray-50 from-30% via-gray-400 via-50% to-gray-700 to-90% mix-blend-multiply"></div>
+        </div>
+        <Inner>
+          <div className="text-white absolute bottom-8 px-4">
+            <h1 className="text-2xl font-bold mb-3">{movie.title}</h1>
+            <p className="text-sm">{movie.release_date}</p>
+          </div>
+        </Inner>
+      </div>
+      {/* 하단 영화 상세정보 */}
+      <Inner className="p-4">
+        <div className="flex flex-col items-center md:items-start md:flex-row gap-4">
+          <div className="order-2 md:order-1 rounded-sm w-1/2 md:max-w-3xs overflow-hidden aspect-[4/6] mb-2 md:mb-4">
+            <img
+              src={`${baseUrl}${movie.poster_path}`}
+              alt={movie.title}
+              className="w-full h-full object-cover mx-auto"
+            />
+          </div>
+          <div className="order-1 md:order-2 flex flex-col gap-2 md:w-2/3">
+            {/* 평점 */}
+            <div className="flex items-center gap-2">
+              {/* 별점 */}
+              <div className="flex items-center gap-2">
+                {/* 별점: 평가점수에 따라 */}
+                <div className="relative">
+                  <div
+                    className={` ${
+                      myStar > 0 ? "text-yellow-400" : "text-gray-200"
+                    } 
+                     flex shirink-0 text-4xl h-full absolute inset-0 overflow-hidden
+                    `}
+                    style={{
+                      minWidth: `${myStar * 10}%`,
+                      width: `${preRate * 10}%`,
+                    }}
+                  >
+                    <FaStar className="shrink-0"/>
+                    <FaStar className="shrink-0"/>
+                    <FaStar className="shrink-0"/>
+                    <FaStar className="shrink-0"/>
+                    <FaStar className="shrink-0"/>
+                  </div>
+                  <div className="flex text-4xl text-gray-200">
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                  </div>
+                  <div
+                    className="border inset-0 w-full border-red-200 rounded-full h-full absolute"
+                    onMouseUp={(e) => handleMouseUp(e)}
+                  ></div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-bold">
+                  {(movie.vote_average / 2).toPrecision(2)}
+                </span>
+                <span className="text-sm text-gray-400">/ 5</span>
+                <span className="text-xs text-gray-400">
+                  ({movie.vote_count}명 참여)
+                </span>
+              </div>
+            </div>
+            {/* 기능: 찜 / 코멘트작성 / 보는중  */}
+            <div className="flex items-center gap-2">
+              <button className="px-4 py-2 rounded-xl bg-green-400 hover:bg-green-500 transition text-white font-bold">
+                보고싶어요
+              </button>
+              <button className="px-4 py-2 rounded-xl bg-gray-300 hover:bg-gray-400 transition text-white font-bold">
+                코멘트
+              </button>
+              <button className="px-4 py-2 rounded-xl bg-gray-300 hover:bg-gray-400 transition text-white font-bold">
+                보는중
+              </button>
+            </div>
+            {/* 내가 쓴 코멘트: 있으면 */}
+            {myComment && (
+              <div className="">
+                <h2 className="text-lg font-bold mb-3">내가 쓴 코멘트</h2>
+                <div className="border border-gray-300 rounded-md p-4">
+                  <div className="">
+                    <p className="text-sm whitespace-pre-wrap">{myComment}</p>
+                  </div>
+                  <div className="flex items-center justify-end gap-2 mt-2">
+                    <button
+                      className="text-sm text-gray-500 hover:text-gray-600 transition cursor-pointer"
+                      onClick={() => setIsCommentModalOpen((prev) => !prev)}
+                    >
+                      수정
+                    </button>
+                    <button className="text-sm text-gray-500 hover:text-gray-600 transition cursor-pointer">
+                      삭제
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+            {isCommentModalOpen && (
+              <Modal
+                isOpen={isCommentModalOpen}
+                handleClick={() => setIsCommentModalOpen((prev) => !prev)}
+                modalTitle="코멘트 작성"
+              >
+                <div className="flex flex-col gap-2">
+                  <textarea
+                    className="w-full h-24 p-2 border border-gray-300 rounded-md resize-none"
+                    placeholder="코멘트를 작성하세요."
+                  >
+                    {myComment}
+                  </textarea>
+                  <button className="px-4 py-2 rounded-xl bg-green-400 hover:bg-green-500 transition text-white font-bold">
+                    코멘트 등록
+                  </button>
+                </div>
+              </Modal>
+            )}
+            {/* 영화 줄거리 */}
+            <p className="whitespace-pre-line">{movie.overview}</p>
+          </div>
+        </div>
+      </Inner>
+    </div>
+  );
+};
+
+export default MovieDetail;
