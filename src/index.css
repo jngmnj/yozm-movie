@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@font-face {
+    font-family: 'SUIT Variable';
+    src: url('../assets/fonts/SUIT-Variable-ttf/SUIT-Variable.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+*, body {
+    font-family: "SUIT Variable", sans-serif !important;
+    box-sizing: border-box;
+}
