@@ -1,17 +1,17 @@
+import { Link } from "react-router-dom";
 
 const MovieCard = ({ movie }) => {
-  console.log(movie)
-  const baseUrl = "https://image.tmdb.org/t/p/w500"; 
+  console.log(movie);
+  const baseUrl = "https://image.tmdb.org/t/p/w500";
   return (
-    <div>
-      <div className="movie-card">
-        <img src={`${baseUrl}${movie.poster_path}`} alt={movie.title} />
-        <h2>{movie.title}</h2>
-        <p>{movie.release_date}</p>
-        <p>{movie.overview}</p>
+    <Link to={`/details/${movie.id}`} className="">
+      <div className="rounded-sm overflow-hidden aspect-[4/6] mb-2 md:mb-4">
+        <img src={`${baseUrl}${movie.poster_path}`} alt={movie.title} className="w-full h-full object-cover" />
       </div>
-    </div>
-  )
-}
+      <div class="font-semibold line-clamp-1">{movie.title}</div>
+      <p className="text-xs md:text-sm">{movie.release_date}</p>
+    </Link>
+  );
+};
 
-export default MovieCard
+export default MovieCard;
