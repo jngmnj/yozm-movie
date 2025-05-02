@@ -43,6 +43,12 @@ const MovieDetail = () => {
           <div className="text-white absolute bottom-8 px-4">
             <h1 className="text-2xl font-bold mb-3">{movie.title}</h1>
             <p className="text-sm">{movie.release_date}</p>
+            <div className="flex items-center gap-4 mt-2">
+              <p className="text-sm">{movie.runtime}분</p>
+              <p className="text-sm">
+                {movie.genres.map((g) => g.name).join("·")}
+              </p>
+            </div>
           </div>
         </Inner>
       </div>
@@ -74,11 +80,11 @@ const MovieDetail = () => {
                       width: `${preRate * 10}%`,
                     }}
                   >
-                    <FaStar className="shrink-0"/>
-                    <FaStar className="shrink-0"/>
-                    <FaStar className="shrink-0"/>
-                    <FaStar className="shrink-0"/>
-                    <FaStar className="shrink-0"/>
+                    <FaStar className="shrink-0" />
+                    <FaStar className="shrink-0" />
+                    <FaStar className="shrink-0" />
+                    <FaStar className="shrink-0" />
+                    <FaStar className="shrink-0" />
                   </div>
                   <div className="flex text-4xl text-gray-200">
                     <FaStar />
@@ -104,7 +110,7 @@ const MovieDetail = () => {
               </div>
             </div>
             {/* 기능: 찜 / 코멘트작성 / 보는중  */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-4">
               <button className="px-4 py-2 rounded-xl bg-green-400 hover:bg-green-500 transition text-white font-bold">
                 보고싶어요
               </button>
@@ -119,7 +125,7 @@ const MovieDetail = () => {
             {myComment && (
               <div className="">
                 <h2 className="text-lg font-bold mb-3">내가 쓴 코멘트</h2>
-                <div className="border border-gray-300 rounded-md p-4">
+                <div className="border border-gray-300 rounded-md p-4 mb-6">
                   <div className="">
                     <p className="text-sm whitespace-pre-wrap">{myComment}</p>
                   </div>
@@ -157,6 +163,7 @@ const MovieDetail = () => {
               </Modal>
             )}
             {/* 영화 줄거리 */}
+            <p className="text-lg">{movie.tagline}</p>
             <p className="whitespace-pre-line">{movie.overview}</p>
           </div>
         </div>
