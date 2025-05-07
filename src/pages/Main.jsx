@@ -2,10 +2,13 @@ import Inner from "@components/common/Inner";
 import MainBanner from "@components/main/MainBanner";
 import MovieList from "@components/movie/MovieList";
 import { useFetch } from "@hooks/useFetch";
-import { getPopularMovies, options } from '../utils/getMovies';
+import { getPopularMovies } from "@utils/getMovies";
+import { useCallback } from "react";
+import { options } from '../utils/getMovies';
 
 const Main = () => {
-  const { data, error, loading } = useFetch({ options, query: getPopularMovies });
+  const query = useCallback(()=> getPopularMovies(options), []);
+  const { data, error, loading } = useFetch({ query });
 
   if (!data) return null;
 

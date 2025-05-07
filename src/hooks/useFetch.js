@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-export const useFetch = ({ options, query }) => {
+// url은 useFetch 밖에서 조합해서 넘기는 게 깔끔.
+export const useFetch = ({ query }) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -14,12 +15,7 @@ export const useFetch = ({ options, query }) => {
 
     const fetchData = async () => {
       try {
-        // const response = await fetch(url, options);
-        const response = await query(options);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const result = await response.json();
+        const result = await query();
         setData(result);
       } catch (error) {
         setError(error);
@@ -27,9 +23,9 @@ export const useFetch = ({ options, query }) => {
         setLoading(false);
       }
     };
-
+    
     fetchData();
-  }, [query, options]);
+  }, [query]);
 
   return { data, error, loading };
 };

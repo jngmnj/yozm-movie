@@ -19,5 +19,6 @@ export const getPopularMovies = async (options) => {
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
-  return response;
+  const result = await response.json();
+  return result;
 };
