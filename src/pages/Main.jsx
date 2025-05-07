@@ -1,38 +1,34 @@
 import Inner from "@components/common/Inner";
 import MainBanner from "@components/main/MainBanner";
 import MovieList from "@components/movie/MovieList";
-import data from "@data/movieListData.json";
-import { useState } from "react";
+import { fetchPopularMovies } from "@store/middleware/fetchMovieDetail";
+import { options } from "@utils/getMovies";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Main = () => {
-  const [movies, setMovies] = useState(data.results);
+  // const query = useCallback(()=> getPopularMovies(options), []);
+  // const { data, error, loading } = useFetch({ query });
 
-  if (!movies) return null;
-  const today = new Date();
+  const dispatch = useDispatch();
+  const { popularMovies, loading, error } = useSelector(
+    (state) => state.movies
+  );
+  useEffect(()=> {
+    dispatch(fetchPopularMovies(1, options));
+  }, [dispatch])
 
-  const mainBannerDatas = movies
+  if (!popularMovies) return null;
+
+  const nonAdultMovies = popularMovies.filter((movie) => !movie.adult);
+  
+  const mainBannerDatas = nonAdultMovies
     .sort((a, b) => b.popularity - a.popularity)
     .slice(0, 10);
 
-  const popularMovies = movies
+  const popularMovieDatas = nonAdultMovies
     .sort((a, b) => b.popularity - a.popularity)
     .slice(10, 16);
-
-  const topRatedMovies = movies
-    .sort((a, b) => b.vote_average - a.vote_average)
-    .slice(0, 6);
-
-  const sortedMovies = movies.sort(
-    (a, b) => new Date(a.release_date) - new Date(b.release_date)
-  );
-
-  const upcomingMovies = sortedMovies
-    .filter((movie) => movie.status === "upComing??")
-    .slice(0, 6);
-
-  const nowPlayingMovies = sortedMovies
-    .filter((movie) => new Date(movie.release_date) <= today)
-    .slice(0, 6);
 
   return (
     <>
@@ -40,10 +36,10 @@ const Main = () => {
       <MainBanner data={mainBannerDatas} />
       <Inner className="px-4">
         {/* movieList */}
-        <MovieList title={"인기순"} movies={popularMovies} />
-        <MovieList title={"별점순"} movies={topRatedMovies} />
+        <MovieList title={"인기순"} movies={popularMovieDatas} />
+        {/* <MovieList title={"별점순"} movies={topRatedMovies} />
         <MovieList title={"현재상영중인 영화"} movies={nowPlayingMovies} />
-        <MovieList title={"개봉예정 영화"} movies={upcomingMovies} />
+        <MovieList title={"개봉예정 영화"} movies={upcomingMovies} /> */}
       </Inner>
     </>
   );
