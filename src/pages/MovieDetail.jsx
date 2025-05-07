@@ -20,7 +20,7 @@ const MovieDetail = () => {
   const [preRate, setPreRate] = useState(0);
 
   useEffect(() => {
-    dispatch(fetchMovieDetail(id, options));
+    dispatch(fetchMovieDetail({id, options}));
   }, [id, dispatch]);
 
 

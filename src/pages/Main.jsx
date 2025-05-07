@@ -15,7 +15,7 @@ const Main = () => {
     (state) => state.movies
   );
   useEffect(()=> {
-    dispatch(fetchPopularMovies(1, options));
+    dispatch(fetchPopularMovies({page: 1, options}));
   }, [dispatch])
 
   if (!popularMovies) return null;
