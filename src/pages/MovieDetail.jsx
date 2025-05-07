@@ -1,28 +1,28 @@
 import Inner from "@components/common/Inner";
 import Modal from "@components/modal/Modal";
-import { useFetch } from "@hooks/useFetch";
-import { getMovieDetail } from "@utils/getMovieDetail";
-import { useCallback, useEffect, useState } from "react";
+import { fetchMovieDetail } from "@store/middleware/fetchMovieDetail";
+import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { IMG_BASE_URL } from '../constants/index';
-import { options } from '../utils/getMovies';
+import { IMG_BASE_URL } from "../constants/index";
+import { options } from "../utils/getMovies";
 
 const MovieDetail = () => {
   const { id } = useParams();
-  const [movie, setMovie] = useState({});
-  const [myComment, setMyComment] = useState(`내가 원하던게 이거잖아`);
+  const dispatch = useDispatch();
+
+  const { movie, myComment, myStar, loading, error } = useSelector(
+    (state) => state.movieDetail
+  );
+
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
-  const [myStar, setMyStar] = useState(7);
   const [preRate, setPreRate] = useState(0);
 
-  const query = useCallback(() => getMovieDetail(id, options), [id, options]);
-
-  const { data, error, loading } = useFetch({ query });
-
   useEffect(() => {
-    setMovie(data);
-  }, [data]);
+    dispatch(fetchMovieDetail(id, options));
+  }, [id, dispatch]);
+
 
   const handleMouseUp = (e) => {
     // ref element
