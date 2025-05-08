@@ -1,4 +1,3 @@
-import { POPUPLAR_MOVIES_URL } from "@constants/index";
 
 
 const API_TOKEN = import.meta.env.VITE_TMDB_API_TOKEN;
@@ -11,14 +10,17 @@ export const options = {
   },
 };
 
-export const getPopularMovies = async (options) => {
+export const getMovies = async (url, options) => {
+  // const response = await fetch(`${url}?langquage=ko-KR&page=1`, options);
+  console.log("ttestet")
   const response = await fetch(
-    `${POPUPLAR_MOVIES_URL}?langquage=ko-KR&page=1`,
+    `${url}`,
     options
   );
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
   const result = await response.json();
+  console.log("getMovies", result);
   return result;
 };
