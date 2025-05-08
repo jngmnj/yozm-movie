@@ -1,23 +1,28 @@
 import Inner from "@components/common/Inner";
 import Modal from "@components/modal/Modal";
-import data from "@data/movieDetailData.json";
+import { fetchMovieDetail } from "@store/middleware/fetchMovieDetail";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { IMG_BASE_URL } from "../constants/index";
+import { options } from "../utils/getMovies";
 
 const MovieDetail = () => {
   const { id } = useParams();
-  const [movie, setMovie] = useState([]);
-  const [myComment, setMyComment] = useState(`내가 원하던게 이거잖아`);
+  const dispatch = useDispatch();
+
+  const { movie, myComment, myStar, loading, error } = useSelector(
+    (state) => state.movieDetail
+  );
+
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
-  const [myStar, setMyStar] = useState(7);
   const [preRate, setPreRate] = useState(0);
 
-  const baseUrl = "https://image.tmdb.org/t/p/w500";
-
   useEffect(() => {
-    setMovie(data);
-  }, [id]);
+    dispatch(fetchMovieDetail({id, options}));
+  }, [id, dispatch]);
+
 
   const handleMouseUp = (e) => {
     // ref element
@@ -33,7 +38,7 @@ const MovieDetail = () => {
       <div className="relative h-120">
         <div className="h-full overflow-hidden mb-8 absolute inset-0">
           <img
-            src={`${baseUrl}${movie.backdrop_path}`}
+            src={`${IMG_BASE_URL}${movie.backdrop_path}`}
             alt={movie.title}
             className="w-full h-full object-cover object-center"
           />
@@ -46,7 +51,7 @@ const MovieDetail = () => {
             <div className="flex items-center gap-4 mt-2">
               <p className="text-sm">{movie.runtime}분</p>
               <p className="text-sm">
-                {movie.genres.map((g) => g.name).join("·")}
+                {movie.genres && movie.genres.map((g) => g.name).join("·")}
               </p>
             </div>
           </div>
@@ -57,7 +62,7 @@ const MovieDetail = () => {
         <div className="flex flex-col items-center md:items-start md:flex-row gap-4">
           <div className="order-2 md:order-1 rounded-sm w-1/2 md:max-w-3xs overflow-hidden aspect-[4/6] mb-2 md:mb-4">
             <img
-              src={`${baseUrl}${movie.poster_path}`}
+              src={`${IMG_BASE_URL}${movie.poster_path}`}
               alt={movie.title}
               className="w-full h-full object-cover mx-auto"
             />
