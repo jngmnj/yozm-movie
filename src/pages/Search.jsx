@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 
+import { getMovies, options } from '@api/getMovies';
 import { useSearchParams } from 'react-router';
 
 import Inner from '@components/common/Inner';
 import MovieList from '@components/movie/MovieList';
 import { SEARCH_MOVIES_URL } from '@constants/index';
 import { useFetch } from '@hooks/useFetch';
-import { getMovies, options } from '@utils/getMovies';
 
 const Search = () => {
   const [searchParams] = useSearchParams();

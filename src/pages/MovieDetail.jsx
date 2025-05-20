@@ -9,8 +9,8 @@ import LoadingSpinner from '@components/common/LoadingSpinner';
 import Modal from '@components/modal/Modal';
 import { fetchMovieDetail } from '@store/middleware/fetchMovieDetail';
 
+import { options } from '../api/getMovies';
 import { IMG_BASE_URL } from '../constants/index';
-import { options } from '../utils/getMovies';
 
 const MovieDetail = () => {
   const { id } = useParams();
