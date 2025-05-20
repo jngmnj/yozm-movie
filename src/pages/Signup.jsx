@@ -1,7 +1,8 @@
-import Inner from "@components/common/Inner";
-import Input from "@components/common/Input";
-import { useSupabaseAuth } from "@supabaseJS/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
+import Inner from '@components/common/Inner';
+import Input from '@components/common/Input';
+import { useSupabaseAuth } from '@supabaseJS/auth';
 
 const Signup = () => {
   const { signUp, login } = useSupabaseAuth();
@@ -14,7 +15,7 @@ const Signup = () => {
       password: { value: password },
       name: { value: name },
     } = e.target;
-    
+
     try {
       const userInfo = await signUp({
         email,
@@ -27,13 +28,13 @@ const Signup = () => {
           password,
         });
         if (loginInfo?.user) {
-          alert("회원가입 및 로그인 성공");
-          navigate("/");
+          alert('회원가입 및 로그인 성공');
+          navigate('/');
         }
       }
     } catch (error) {
-      console.error("Error during signup:", error);
-      alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+      console.error('Error during signup:', error);
+      alert('회원가입에 실패했습니다. 다시 시도해주세요.');
     }
   };
 

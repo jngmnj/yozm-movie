@@ -1,17 +1,18 @@
-import Inner from "@components/common/Inner";
-import Input from "@components/common/Input";
-import { setUser } from "@store/slice/userSlice";
-import { useSupabaseAuth } from "@supabaseJS/auth";
-import { FcGoogle } from "react-icons/fc";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router";
-import KakaoImg from "/assets/images/login/kakaoButton/kakao_login_large_wide.png";
+import { FcGoogle } from 'react-icons/fc';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router';
+
+import Inner from '@components/common/Inner';
+import Input from '@components/common/Input';
+import { setUser } from '@store/slice/userSlice';
+import { useSupabaseAuth } from '@supabaseJS/auth';
 
 const Login = () => {
-  const { login, getUserInfo, loginWithKakao, loginWithGoogle } =
-    useSupabaseAuth();
+  const { login, loginWithKakao, loginWithGoogle } = useSupabaseAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const KakaoImg =
+    '/assets/images/login/kakaoButton/kakao_login_large_wide.png';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,11 +26,11 @@ const Login = () => {
       });
       if (userInfo?.user) {
         dispatch(setUser(userInfo));
-        navigate("/");
+        navigate('/');
       }
     } catch (error) {
-      console.error("Error during login:", error);
-      alert("로그인에 실패했습니다. 다시 시도해주세요.");
+      console.error('Error during login:', error);
+      alert('로그인에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -37,8 +38,8 @@ const Login = () => {
     try {
       await loginWithKakao();
     } catch (error) {
-      console.error("Error during Kakao login:", error);
-      alert("카카오 로그인에 실패했습니다. 다시 시도해주세요.");
+      console.error('Error during Kakao login:', error);
+      alert('카카오 로그인에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -46,8 +47,8 @@ const Login = () => {
     try {
       await loginWithGoogle();
     } catch (error) {
-      console.error("Error during Google login:", error);
-      alert("구글 로그인에 실패했습니다. 다시 시도해주세요.");
+      console.error('Error during Google login:', error);
+      alert('구글 로그인에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
