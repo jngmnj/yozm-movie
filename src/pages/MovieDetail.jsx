@@ -1,35 +1,37 @@
-import Inner from "@components/common/Inner";
-import LoadingSpinner from "@components/common/LoadingSpinner";
-import Modal from "@components/modal/Modal";
-import { fetchMovieDetail } from "@store/middleware/fetchMovieDetail";
-import { useEffect, useState } from "react";
-import { FaStar } from "react-icons/fa6";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { IMG_BASE_URL } from "../constants/index";
-import { options } from "../utils/getMovies";
+import { useEffect, useState } from 'react';
+
+import { FaStar } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
+import Inner from '@components/common/Inner';
+import LoadingSpinner from '@components/common/LoadingSpinner';
+import Modal from '@components/modal/Modal';
+import { fetchMovieDetail } from '@store/middleware/fetchMovieDetail';
+
+import { IMG_BASE_URL } from '../constants/index';
+import { options } from '../utils/getMovies';
 
 const MovieDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
   const { movie, myComment, myStar, loading } = useSelector(
-    (state) => state.movieDetail
+    (state) => state.movieDetail,
   );
 
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [preRate, setPreRate] = useState(0);
 
   useEffect(() => {
-    dispatch(fetchMovieDetail({id, options}));
+    dispatch(fetchMovieDetail({ id, options }));
   }, [id, dispatch]);
-
 
   const handleMouseUp = (e) => {
     // ref element
     const x = e.clientX;
     console.log(x);
-    console.log("test");
+    console.log('test');
   };
   if (!movie) return null;
 
@@ -38,7 +40,7 @@ const MovieDetail = () => {
       {/* 로딩중 */}
       {loading && <LoadingSpinner />}
       {/* 상단 영화 간략정보 */}
-      {(!loading && movie) &&(
+      {!loading && movie && (
         <>
           <div className="relative h-120">
             <div className="h-full overflow-hidden mb-8 absolute inset-0">
@@ -56,7 +58,7 @@ const MovieDetail = () => {
                 <div className="flex items-center gap-4 mt-2">
                   <p className="text-sm">{movie.runtime}분</p>
                   <p className="text-sm">
-                    {movie.genres && movie.genres.map((g) => g.name).join("·")}
+                    {movie.genres && movie.genres.map((g) => g.name).join('·')}
                   </p>
                 </div>
               </div>
@@ -81,7 +83,7 @@ const MovieDetail = () => {
                     <div className="relative">
                       <div
                         className={` ${
-                          myStar > 0 ? "text-yellow-400" : "text-gray-200"
+                          myStar > 0 ? 'text-yellow-400' : 'text-gray-200'
                         } 
                         flex shirink-0 text-4xl h-full absolute inset-0 overflow-hidden
                         `}
@@ -137,7 +139,9 @@ const MovieDetail = () => {
                     <h2 className="text-lg font-bold mb-3">내가 쓴 코멘트</h2>
                     <div className="border border-gray-300 rounded-md p-4 mb-6">
                       <div className="">
-                        <p className="text-sm whitespace-pre-wrap">{myComment}</p>
+                        <p className="text-sm whitespace-pre-wrap">
+                          {myComment}
+                        </p>
                       </div>
                       <div className="flex items-center justify-end gap-2 mt-2">
                         <button
