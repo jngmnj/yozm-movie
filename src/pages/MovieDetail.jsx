@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import { FaStar } from 'react-icons/fa6';
 import { useParams } from 'react-router-dom';
 
+import defaultImage from '@assets/images/common/movie_default.png';
 import Inner from '@components/common/Inner';
 import LoadingSpinner from '@components/common/LoadingSpinner';
 import Modal from '@components/modal/Modal';
@@ -30,6 +31,10 @@ const MovieDetail = () => {
   const handleMouseUp = (e) => {
     const x = e.clientX;
   };
+  const handleImageError = (e) => {
+    e.target.onerror = null;
+    e.target.src = defaultImage;
+  };
 
   return (
     <div>
@@ -44,6 +49,7 @@ const MovieDetail = () => {
                 src={`${IMG_BASE_URL}${movie.backdrop_path}`}
                 alt={movie.title}
                 className="w-full h-full object-cover object-center"
+                onError={handleImageError}
               />
               <div className="w-full h-full bg-linear-to-b from-gray-50 from-30% via-gray-400 via-50% to-gray-700 to-90% mix-blend-multiply"></div>
             </div>
@@ -68,6 +74,7 @@ const MovieDetail = () => {
                   src={`${IMG_BASE_URL}${movie.poster_path}`}
                   alt={movie.title}
                   className="w-full h-full object-cover mx-auto"
+                  onError={handleImageError}
                 />
               </div>
               <div className="order-1 md:order-2 flex flex-col gap-2 md:w-2/3">
