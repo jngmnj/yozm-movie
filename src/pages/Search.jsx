@@ -2,11 +2,11 @@ import { useCallback } from 'react';
 
 import { useSearchParams } from 'react-router';
 
+import { getMovies, options } from '@api/getMovies';
 import Inner from '@components/common/Inner';
 import MovieList from '@components/movie/MovieList';
 import { SEARCH_MOVIES_URL } from '@constants/index';
 import { useFetch } from '@hooks/useFetch';
-import { getMovies, options } from '@utils/getMovies';
 
 const Search = () => {
   const [searchParams] = useSearchParams();
@@ -20,7 +20,7 @@ const Search = () => {
   return (
     <Inner className="px-4">
       {loading && <div>Loading...</div>}
-      {!loading && data && <MovieList title={null} movies={data.results} />}
+      {!loading && data && <MovieList movies={data.results} />}
     </Inner>
   );
 };

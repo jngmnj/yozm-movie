@@ -103,6 +103,7 @@ export default [
             ['@assets', './src/assets'],
             ['@hooks', './src/hooks'],
             ['@utils', './src/utils'],
+            ['@api', './src/api'],
             ['@store', './src/store'],
             ['@constants', './src/constants'],
             ['@supabaseJS', './src/supabase'],
