@@ -34,7 +34,7 @@ const MovieDetail = () => {
   return (
     <div>
       {/* 로딩중 */}
-      {loading && <LoadingSpinner />}
+      {loading && <LoadingSpinner height="h-screen" />}
       {/* 상단 영화 간략정보 */}
       {!loading && movie && (
         <>

@@ -75,7 +75,7 @@ const SearchOverlay = ({ handleClick }) => {
           </div>
         </form>
         {/* search results */}
-        {loading && <LoadingSpinner />}
+        {loading && <LoadingSpinner height="h-20" />}
         {error && (
           <p className="mt-4 text-center text-red-500">
             Error: {error.message}
