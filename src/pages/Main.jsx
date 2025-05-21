@@ -1,26 +1,20 @@
-import { useEffect } from 'react';
+import { useCallback } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-
+import { getMovies, options } from '@api/getMovies';
 import Inner from '@components/common/Inner';
 import MainBanner from '@components/main/MainBanner';
 import MovieList from '@components/movie/MovieList';
-import { fetchPopularMovies } from '@store/middleware/fetchMovieDetail';
-import { options } from '@utils/getMovies';
+import { POPUPLAR_MOVIES_URL } from '@constants/index';
+import { useFetch } from '@hooks/useFetch';
 
 const Main = () => {
-  // const query = useCallback(()=> getPopularMovies(options), []);
-  // const { data, error, loading } = useFetch({ query });
+  const URL = `${POPUPLAR_MOVIES_URL}?language=ko-KR&page=1`;
+  const query = useCallback(() => getMovies(URL, options), []);
+  const { data, error, loading } = useFetch({ query });
 
-  const dispatch = useDispatch();
-  const { popularMovies } = useSelector((state) => state.movies);
-  useEffect(() => {
-    dispatch(fetchPopularMovies({ page: 1, options }));
-  }, [dispatch]);
+  if (!data) return null;
 
-  if (!popularMovies) return null;
-
-  const nonAdultMovies = popularMovies.filter((movie) => !movie.adult);
+  const nonAdultMovies = data.results.filter((movie) => !movie.adult);
 
   const mainBannerDatas = nonAdultMovies
     .sort((a, b) => b.popularity - a.popularity)

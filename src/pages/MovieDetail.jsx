@@ -1,39 +1,35 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { FaStar } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import Inner from '@components/common/Inner';
 import LoadingSpinner from '@components/common/LoadingSpinner';
 import Modal from '@components/modal/Modal';
-import { fetchMovieDetail } from '@store/middleware/fetchMovieDetail';
+import { useFetch } from '@hooks/useFetch';
 
-import { options } from '../api/getMovies';
-import { IMG_BASE_URL } from '../constants/index';
+import { getMovies, options } from '../api/getMovies';
+import { IMG_BASE_URL, TMDB_BASE_URL } from '../constants/index';
 
 const MovieDetail = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
 
-  const { movie, myComment, myStar, loading } = useSelector(
-    (state) => state.movieDetail,
-  );
+  const [myComment, setMyComment] = useState('');
+  const [myStar, setMyStar] = useState(0);
 
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [preRate, setPreRate] = useState(0);
 
-  useEffect(() => {
-    dispatch(fetchMovieDetail({ id, options }));
-  }, [id, dispatch]);
+  const MOVIE_DETAIL_URL = `${TMDB_BASE_URL}/movie/${id}?language=ko-KR`;
+  const query = useCallback(
+    () => getMovies(MOVIE_DETAIL_URL, options),
+    [MOVIE_DETAIL_URL],
+  );
+  const { data: movie, loading } = useFetch({ query });
 
   const handleMouseUp = (e) => {
-    // ref element
     const x = e.clientX;
-    console.log(x);
-    console.log('test');
   };
-  if (!movie) return null;
 
   return (
     <div>
@@ -92,23 +88,24 @@ const MovieDetail = () => {
                           width: `${preRate * 10}%`,
                         }}
                       >
-                        <FaStar className="shrink-0" />
-                        <FaStar className="shrink-0" />
-                        <FaStar className="shrink-0" />
-                        <FaStar className="shrink-0" />
-                        <FaStar className="shrink-0" />
+                        {Array.from({ length: 5 }, (_, i) => (
+                          <FaStar
+                            key={i}
+                            className={`shrink-0 ${
+                              myStar > i ? 'text-yellow-400' : 'text-gray-200'
+                            }`}
+                          />
+                        ))}
                       </div>
                       <div className="flex text-4xl text-gray-200">
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
+                        {Array.from({ length: 5 }, (_, i) => (
+                          <FaStar key={i} className={`shrink-0`} />
+                        ))}
                       </div>
-                      <div
+                      <button
                         className="border inset-0 w-full border-red-200 rounded-full h-full absolute"
                         onMouseUp={(e) => handleMouseUp(e)}
-                      ></div>
+                      ></button>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
