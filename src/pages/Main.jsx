@@ -30,7 +30,10 @@ const Main = () => {
       <MainBanner data={mainBannerDatas} />
       <Inner className="px-4">
         {/* movieList */}
-        <MovieList title={'인기순'} movies={popularMovieDatas} />
+        <div className="mb-15 last:mb-0">
+          <h3 className="mb-6 font-semibold text-xl">인기순</h3>
+          <MovieList movies={popularMovieDatas} />
+        </div>
         {/* <MovieList title={"별점순"} movies={topRatedMovies} />
         <MovieList title={"현재상영중인 영화"} movies={nowPlayingMovies} />
         <MovieList title={"개봉예정 영화"} movies={upcomingMovies} /> */}
