@@ -1,16 +1,17 @@
-import Inner from "@components/common/Inner";
-import SearchOverlay from "@components/common/SearchOverlay";
-import Fade from "@components/modal/Fade";
-import { logout } from "@store/slice/userSlice";
-import { useAuth } from "@supabaseJS/auth/useAuth";
-import { useEffect, useState } from "react";
-import { CiMenuBurger } from "react-icons/ci";
-import { IoSearch } from "react-icons/io5";
-import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
-import { RiCloseLargeLine } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { useSupabaseAuth } from '../../../../../Downloads/supabase/auth/index';
+import { useEffect, useState } from 'react';
+
+import { CiMenuBurger } from 'react-icons/ci';
+import { IoSearch } from 'react-icons/io5';
+import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
+import { RiCloseLargeLine } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+
+import Inner from '@components/common/Inner';
+import SearchOverlay from '@components/common/SearchOverlay';
+import Fade from '@components/modal/Fade';
+import { logout } from '@store/slice/userSlice';
+import { useAuth } from '@supabaseJS/auth/useAuth';
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -21,8 +22,7 @@ const Header = () => {
   const { theme } = useSelector((state) => state.theme);
   const { user } = useSelector((state) => state.user);
   const { logout: supabaseLogout } = useAuth();
-  const { getUserInfo } = useSupabaseAuth();
-    
+
   const handleClick = () => {
     setIsSearchOpen((prev) => !prev);
   };
@@ -36,8 +36,8 @@ const Header = () => {
       await supabaseLogout();
       dispatch(logout());
     } catch (error) {
-      console.error("Error during logout:", error);
-      alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
+      console.error('Error during logout:', error);
+      alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -51,7 +51,7 @@ const Header = () => {
       <Inner className="flex items-center justify-between h-16">
         <Link to="/">
           <h1 className="text-2xl font-bold">
-            요즘{" "}
+            요즘{' '}
             <span className="text-green-400 text-3xl font-black">movie</span>
           </h1>
         </Link>
@@ -64,10 +64,10 @@ const Header = () => {
           </button>
 
           <button
-            onClick={() => dispatch({ type: "TOGGLE_THEME" })}
+            onClick={() => dispatch({ type: 'TOGGLE_THEME' })}
             className="text-2xl text-gray-300 cursor-pointer"
           >
-            {theme === "dark" ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}
+            {theme === 'dark' ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}
           </button>
           <div className="items-center gap-4 hidden md:flex">
             {user ? (
@@ -77,7 +77,7 @@ const Header = () => {
                   <img
                     src={
                       user?.user?.profileImageUrl ||
-                      "assets/images/common/default_profile.png"
+                      'assets/images/common/default_profile.png'
                     }
                     alt="profile"
                     className="w-10 h-10 rounded-full"
@@ -85,7 +85,10 @@ const Header = () => {
                 </div>
                 <div className="absolute min-w-max flex-col gap-2 top-10 right-0 bg-white shadow-lg rounded-lg p-4 hidden group-hover:flex">
                   <div>{user?.user?.userName}님</div>
-                  <Link to="/mypage" className="block transition hover:text-green-400">
+                  <Link
+                    to="/mypage"
+                    className="block transition hover:text-green-400"
+                  >
                     마이페이지
                   </Link>
                   <button
@@ -132,7 +135,7 @@ const Header = () => {
         <Fade isOpen={isSideMenuOpen} handleClick={handleSideClick} />
         <div
           className={`fixed right-0 bg-white p-4 transition-allduration-300 ease-in-out w-full h-screen overflow-y-auto transition-all ${
-            isSideMenuOpen ? "top-0" : "-top-full"
+            isSideMenuOpen ? 'top-0' : '-top-full'
           }`}
         >
           <div className="flex items-center gap-4 mt-4">
@@ -143,7 +146,7 @@ const Header = () => {
                   <img
                     src={
                       user?.user.profileImageUrl ||
-                      "assets/images/common/default_profile.png"
+                      'assets/images/common/default_profile.png'
                     }
                     alt="profile"
                     className="w-10 h-10 rounded-full"
